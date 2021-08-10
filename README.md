@@ -4,7 +4,7 @@ This Game contains 8 Classes all with their own unique purpose.
 
 An indentation means that the function was called from the outer function its indented off of
 
-## Alien Invasion:
+# Alien Invasion:
 
 This class is designed to handle the main instance of the game and everything that involves running it specifically.  
   
@@ -51,7 +51,7 @@ continously updates the screen to account for everything that was initiated and 
     - Scoreboard.show_score() shows all the statistics on the screen using the Scoreboard class
     - If the game isn't active: Button.draw_button() draws the button to the screen using the Button class
     
-## Ship:
+# Ship:
 
 This class is designed to control all the information regarding the ship and also uses the Sprite class to show ship lives
 
@@ -64,7 +64,7 @@ centers the ship once the game hard or soft resets
 ### *blitme()* 
 draws the ship image onto a rect which is then pasted on to the screen
 
-## Alien:
+# Alien:
 
 This class is designed to control all the information regarding a single alien.
 
@@ -75,7 +75,7 @@ updates the aliens x position
 ### *check_edges()* 
 returns true if an alien has reached the edge
 
-## Bullet
+# Bullet
 
 This class controls the info on one bullet and also uses the Sprite class
 
@@ -88,7 +88,7 @@ draws the bullet to the screen
 
 ###
 
-## Settings:
+# Settings:
 
 This class is designed to control the static and dynamic settings of the game
 
@@ -99,7 +99,7 @@ initializes the dynamic settings for the game such as fleet direction and the sp
 ### *increase_speed()* 
 is a function that is called in Alien Invasion that increases the speed of the dynamic settings after a fleet is destroyed
 
-## Scoreboard:
+# Scoreboard:
 
 This class displays the stats on the screen
 
@@ -110,4 +110,18 @@ displays the score, high score, level, and ship lives
 ### *check_high_score()* 
 checks to see if a high score was reached. called in check_bullet_alien_collisions.
 
+# Game Stats
 
+This class controls the game's statistics
+
+### *init()* 
+initializes the stats by using reset_stats() 
+### *reset_stats()* redefines the game statistics after a new game
+
+# Button
+
+This class controls the play button
+
+### *init()* initializes properties of the button and a screen and rect
+### *prep_msg()* renders a message and defines its rect
+### *draw_button* draws the button after its message has rendered
