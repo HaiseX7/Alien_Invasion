@@ -95,6 +95,7 @@ class AlienInvasion:
 		elif event.key == pygame.K_r and self.stats.game_active:
 			self.stats.game_active = False
 			self.stats.reset_stats()
+			pygame.mouse.set_visible(True)
 
 	def _check_keyup_events(self, event):
 		"""Respond to key releases."""
