@@ -12,7 +12,7 @@ This class is designed to handle the main instance of the game and everything th
 creates the instances (Settings, Ship, Bullet, Scoreboard, Game Stats, and Button), sprite groups (Bullets and Aliens), screen, and fleet of aliens.
 
     - create_fleet() creates the fleet of aliens using a nested for loop 
-        - **create_alien()** creates an instance of the Alien class to fill the Aliens group    
+        - create_alien() creates an instance of the Alien class to fill the Aliens group    
         
 ### *run_game()* 
 runs a while loop that runs the game. In this loop we call the functions that check events, update the ship, aliens, bullets, and screen. 
