@@ -116,12 +116,16 @@ This class controls the game's statistics
 
 ### *init()* 
 initializes the stats by using reset_stats() 
-### *reset_stats()* redefines the game statistics after a new game
+### *reset_stats()* 
+redefines the game statistics after a new game
 
 # Button
 
 This class controls the play button
 
-### *init()* initializes properties of the button and a screen and rect
-### *prep_msg()* renders a message and defines its rect
-### *draw_button* draws the button after its message has rendered
+### *init()* 
+initializes properties of the button and a screen and rect
+### *prep_msg()* 
+renders a message and defines its rect
+### *draw_button* 
+draws the button after its message has rendered
