@@ -1,5 +1,6 @@
 import pygame.font
 from pygame.sprite import Group
+import json
 
 from ship import Ship
 
@@ -77,3 +78,8 @@ class Scoreboard:
 			ship.rect.x = 10 + ship_number * ship.rect.width
 			ship.rect.y = 10
 			self.ships.add(ship)
+
+	def write_high_score(self):
+		filename = 'high_score.json'
+		with open(filename, 'w') as f:
+			json.dump(self.stats.high_score, f)

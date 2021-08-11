@@ -5,9 +5,9 @@ class Settings:
 	def __init__(self):
 		"""Initialize the game's static settings."""
 		# Screen settings
-		display = pygame.display.Info()
-		self.screen_width = display.current_w
-		self.screen_height = display.current_h
+		pygame_info = pygame.display.Info()
+		self.screen_width = pygame_info.current_w
+		self.screen_height = pygame_info.current_h
 		self.bg_color = (230, 230, 230)
 
 		# Ship settings
@@ -51,3 +51,19 @@ class Settings:
 
 		self.alien_points = int(self.alien_points * self.score_scale)
 
+	def initialize_easy(self):
+		self.bullets_allowed = 10
+		self.ship_speed = 1.5
+		self.bullet_speed = 1.5
+		self.alien_speed = 0.25
+		self.score_scale = 1.1
+		self.speedup_scale = 1.1
+
+	def initialize_normal(self):
+		return 0
+
+	def initialize_hard(self):
+		self.ship_speed = 1.1
+		self.alien_speed = 0.65
+		self.score_scale = 1.75
+		self.speedup_scale = 1.20
