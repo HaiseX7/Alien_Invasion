@@ -4,6 +4,9 @@ This Game contains 8 Classes all with their own unique purpose.
 
 An indentation means that the function was called from the outer function its indented off of
 
+# How to run
+run alien_invasion.py throught the terminal or through an IDE
+
 # Controls
 The game is started by clicking the mouse on the buttons for the difficulty and start game
 
