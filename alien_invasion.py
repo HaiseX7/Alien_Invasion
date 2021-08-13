@@ -14,6 +14,8 @@ from game_stats import GameStats
 from button import Button
 from scoreboard import Scoreboard
 from music import Music
+from start_screen import StartScreen
+from game_over_screen import GameOverScreen
 
 
 class AlienInvasion:
@@ -24,10 +26,21 @@ class AlienInvasion:
 		pygame.init()
 		self.settings = Settings()
 
+		# Initialize variables for the 
+		# systems screen width and height
+		self.w = self.settings.screen_width
+		self.h = self.settings.screen_height
+
 		# Initialize the screen
 		self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 		self.screen_rect = self.screen.get_rect()
 		pygame.display.set_caption("Alien Invasion")
+
+		# Initialize the start screen
+		self.start_screen = StartScreen(self)
+
+		# Initialize the game over screen
+		self.game_over_screen = GameOverScreen(self)
 
 		# Instance of game statistics
 		self.stats = GameStats(self)
@@ -42,11 +55,6 @@ class AlienInvasion:
 		# Create the fleet of aliens
 		self._create_fleet()
 
-		# Make the Play Button
-		self.w = self.settings.screen_width
-		self.h = self.settings.screen_height
-		self.play_button = Button(self, "Play", self.screen_rect.center)
-
 		# Make the Easy, Normal, and Hard buttons
 		self.play_easy = Button(self, "Easy", (self.w // 4, self.h // 2))
 		self.play_normal = Button(self, "Normal", (self.screen_rect.center))
@@ -58,26 +66,39 @@ class AlienInvasion:
 
 		# Initiate the music
 		self.music = Music()
-		self.music.play_music()	
 
 	def run_game(self):
 		"""Starts the main loop for the game."""
 		while True:
-			# Watch for keboard and mouse events
-			self._check_events()
 
-			if self.stats.game_active:
-				# Update Ships position
-				self.ship.update()
+			if self.start_screen.finished:
 
-				# Updates the bullets
-				self._update_bullets()
-				
-				# Updates the aliens
-				self._update_aliens()
+				if not self.game_over_screen.game_over:
+					# Watch for keboard and mouse events
+					self._check_events()
 
-			# Redraw the screen during each pass through the loop.
-			self.update_screen()
+					if self.stats.game_active:
+						# Updates the sprites
+						self._update_sprites()
+
+					# Redraw the screen during each pass through the loop.
+					self.update_screen()
+
+				else:
+					self.game_over_screen.game_over_screen()
+
+			else:
+				self.start_screen.start_screen()
+
+	def _update_sprites(self):
+		# Update Ships position
+		self.ship.update()
+
+		# Updates the bullets
+		self._update_bullets()
+							
+		# Updates the aliens
+		self._update_aliens()
 
 	def _check_events(self):
 		"""Respond to keypresses and mouse events."""
@@ -106,13 +127,34 @@ class AlienInvasion:
 			sys.exit()
 		elif event.key == pygame.K_SPACE:
 			self._fire_bullet()
-		elif event.key == pygame.K_p and not self.stats.game_active:
+		elif event.key == pygame.K_p and not self.stats.game_active and self.difficulty_selected:
 			self._start_game()
 		elif event.key == pygame.K_r and self.stats.game_active:
-			self.stats.game_active = False
-			self.difficulty_selected = False
-			self.stats.reset_stats()
-			pygame.mouse.set_visible(True)
+			self._reset_game(False, False)
+
+	def _reset_game(self, start_screen_finished_t_or_f, game_over_t_or_f):
+		# Set the run_game flags
+		self.stats.game_active = False
+		self.difficulty_selected = False
+
+		# VARIABLE FLAGS
+		self.start_screen.finished = start_screen_finished_t_or_f
+		self.game_over_screen.game_over = game_over_t_or_f
+
+		# Reset the ingame stats
+		self.stats.reset_stats()
+
+		# Clean up the screen
+		self.aliens.empty()
+		self.bullets.empty()
+		self.ship.center_ship()
+		self._create_fleet()
+
+		# Play the main menu music
+		self.music.play_music()
+		
+		# Make the mouse visible
+		pygame.mouse.set_visible(True)
 
 	def _check_keyup_events(self, event):
 		"""Respond to key releases."""
@@ -154,10 +196,13 @@ class AlienInvasion:
 	def _check_play_button(self, mouse_pos):
 		"""Starts a new game when the player clicks a difficulty and hits start."""
 		if self._check_difficulty_selected(mouse_pos) and not self.stats.game_active:
+			# Make the Play Button
+			self.play_button = Button(self, "Play", self.screen_rect.center)
 			play_button_click = self.play_button.rect.collidepoint(mouse_pos)
 			if play_button_click:
 				# start game
 				self.music.button_click()
+				self.music.play_battle_theme()
 				self._start_game()
 
 	def _start_game(self):
@@ -320,11 +365,10 @@ class AlienInvasion:
 			# Pause.
 			sleep(0.5)
 		else:
-			self.stats.game_active = False
-			self.difficulty_selected = False
-			pygame.mouse.set_visible(True)
+			self._reset_game(True, True)
 
 	def update_screen(self):
+		pygame.display.init()
 		# Fill the screen with color
 		self.screen.fill(self.settings.bg_color)
 
@@ -353,6 +397,7 @@ class AlienInvasion:
 
 		#Make the recently drawn screen visible.
 		pygame.display.flip()
+
 
 
 if __name__ == '__main__':
