@@ -32,8 +32,8 @@ creates the instances (Settings, Ship, Bullet, Scoreboard, Game Stats, and Butto
         
 ## *run_game()* 
 runs a while loop that runs the game. In this loop we call the functions that check events, update the ship, aliens, bullets, and screen. 
-
-### check_events() 
+        
+### check_events()
 iterates through the event loop and checks for user input.
 
         1.) check_keydown_events() checks key presses that're needed for updating the game (ship movement, firing bullets, quitting or resetting the game etc.)
@@ -55,7 +55,7 @@ iterates through the event loop and checks for user input.
 ### Ship.update() 
 updates the ship using the Ship class
 
-### update_bullets() 
+### update_bullets()
 updates bullets group
 
         1.) Bullets.update() moves the Bullets group using the update function from the Bullet class
@@ -77,7 +77,7 @@ updates everything regarding the aliens group
         4.) check_aliens_bottom() checks If an alien reaches the bottom of the screen. If one does it counts as the ship being hit
             - ship_hit() is called (soft resets the game)
         
-### *update_screen()* 
+### update_screen() 
 continously updates the screen to account for everything that was initiated and everything thats been occuring in run_game()
 
         1.) Ship.blitme() draws the ship to rectangle using the Ship class
